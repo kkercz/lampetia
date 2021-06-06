@@ -1,23 +1,24 @@
 package data.tuple
 
-data class Point(val x: Double, val y: Double, val z: Double) {
-    fun asTuple(): Tuple {
-        return Tuple.point(x, y, z)
-    }
+data class Point(override val x: Double, override val y: Double, override val z: Double) : Tuple(x, y, z, 1.0) {
 
     operator fun plus(v: Vector): Point {
-        return with(asTuple() + v.asTuple()) { Point(this.x, this.y, this.z) }
+        return super.plus(v) as Point
     }
 
-    operator fun minus(other: Point): Vector {
-        return with(asTuple() - other.asTuple()) { Vector(this.x, this.y, this.z) }
+    operator fun minus(p: Point): Vector {
+        return super.minus(p) as Vector
+    }
+
+    override fun toString(): String {
+        return super.toString()
     }
 
     override fun equals(other: Any?): Boolean {
-        return other is Point && asTuple() == other.asTuple()
+        return super.equals(other)
     }
 
     override fun hashCode(): Int {
-        return asTuple().hashCode()
+        return super.hashCode()
     }
 }

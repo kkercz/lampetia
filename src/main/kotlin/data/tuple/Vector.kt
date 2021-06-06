@@ -1,46 +1,46 @@
 package data.tuple
 
-data class Vector(val x: Double, val y: Double, val z: Double) {
+data class Vector(override val x: Double, override val y: Double, override val z: Double) : Tuple(x, y, z, 0.0) {
 
     companion object {
         operator fun Double.times(vector: Vector): Vector {
-            return vector * this
+            return vector.times(this)
         }
     }
 
-    fun asTuple(): Tuple {
-        return Tuple.vector(x, y, z)
-    }
-
     operator fun plus(v: Vector): Vector {
-        return with(asTuple() + v.asTuple()) { Vector(this.x, this.y, this.z) }
+        return super.plus(v) as Vector
     }
 
     operator fun plus(p: Point): Point {
-        return with(asTuple() + p.asTuple()) { Point(this.x, this.y, this.z) }
+        return super.plus(p) as Point
     }
 
     operator fun minus(v: Vector): Vector {
-        return with(asTuple() - v.asTuple()) { Vector(this.x, this.y, this.z) }
+        return super.minus(v) as Vector
     }
 
-    operator fun times(scalar: Double): Vector {
-        return with(asTuple() * scalar) { Vector(this.x, this.y, this.z) }
+    override operator fun times(scalar: Double): Vector {
+        return super.times(scalar) as Vector
     }
 
-    operator fun div(scalar: Double): Vector {
-        return with(asTuple() / scalar) { Vector(this.x, this.y, this.z) }
+    override operator fun div(scalar: Double): Vector {
+        return super.div(scalar) as Vector
     }
 
-    operator fun unaryMinus(): Vector {
-        return with(-asTuple()) { Vector(this.x, this.y, this.z) }
+    override operator fun unaryMinus(): Vector {
+        return super.unaryMinus() as Vector
+    }
+
+    override fun toString(): String {
+        return super.toString()
     }
 
     override fun equals(other: Any?): Boolean {
-        return other is Vector && asTuple() == other.asTuple()
+        return super.equals(other)
     }
 
     override fun hashCode(): Int {
-        return asTuple().hashCode()
+        return super.hashCode()
     }
 }

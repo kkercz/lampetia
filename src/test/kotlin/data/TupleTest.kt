@@ -1,7 +1,7 @@
 package data
 
 import data.tuple.Point
-import data.tuple.Tuple
+import data.tuple.Tuple.Companion.tuple
 import data.tuple.Vector
 import data.tuple.Vector.Companion.times
 import org.hamcrest.MatcherAssert
@@ -52,8 +52,8 @@ object TupleTest {
 
     @Test
     fun equalityIgnoresRoundingErrors() {
-        val t1 = Tuple(0.5, 1.0, 1.5, 2.0)
-        val t2 = Tuple(0.5000000000004, 1.000000000003, 1.5000000000002, 2.000000000005)
+        val t1 = tuple(0.5, 1.0, 1.5, 2.0)
+        val t2 = tuple(0.5000000000004, 1.000000000003, 1.5000000000002, 2.000000000005)
         MatcherAssert.assertThat(t1, equalTo(t2))
         MatcherAssert.assertThat(t1.hashCode(), equalTo(t2.hashCode()))
         MatcherAssert.assertThat(Point(t1.x, t1.y, t1.z), equalTo(Point(t2.x, t2.y, t2.z)))
