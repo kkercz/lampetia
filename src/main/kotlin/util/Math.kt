@@ -1,6 +1,7 @@
 package util
 
 import kotlin.math.abs
+import kotlin.math.floor
 
 object Math {
 
@@ -9,7 +10,10 @@ object Math {
     /**
      * Compares for equality up to a certain very small precision, allowing to ignore rounding errors.
      */
-    fun Double.equalsSafely(other: Double): Boolean {
-        return abs(this - other) < EPSILON
-    }
+    fun Double.equalsIgnoreRoundingErrors(other: Double): Boolean = abs(this - other) < EPSILON
+
+    /**
+     * Returns a hashcode, ensuring two numbers that would be equal if not for rounding errors will have the same hashcode.
+     */
+    fun Double.hashCodeIgnoreRoundingErrors(): Int = floor(this * 100000).hashCode()
 }

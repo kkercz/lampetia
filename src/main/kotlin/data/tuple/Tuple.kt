@@ -1,12 +1,11 @@
-package data
+package data.tuple
 
-import util.Math.equalsSafely
+import util.Math.equalsIgnoreRoundingErrors
+import util.Math.hashCodeIgnoreRoundingErrors
 
-@Suppress("EqualsOrHashCode")
 data class Tuple(val x: Double, val y: Double, val z: Double, val w: Double) {
 
     companion object {
-
         fun point(x: Double, y: Double, z: Double): Tuple {
             return Tuple(x, y, z, 1.0)
         }
@@ -16,7 +15,7 @@ data class Tuple(val x: Double, val y: Double, val z: Double, val w: Double) {
         }
 
         operator fun Double.times(vector: Tuple): Tuple {
-            return Tuple(this * vector.x, this * vector.y, this * vector.z, this * vector.w)
+            return vector * this
         }
     }
 
@@ -40,16 +39,19 @@ data class Tuple(val x: Double, val y: Double, val z: Double, val w: Double) {
         return Tuple(-x, -y, -z, -w)
     }
 
-    fun getType(): Type {
-        return if (w == 1.0) Type.Point else (if (w == 0.0) Type.Vector else Type.Undefined)
-    }
-
     override fun equals(other: Any?): Boolean {
         return other is Tuple &&
-                x.equalsSafely(other.x) && y.equalsSafely(other.y) && z.equalsSafely(other.z) && w.equalsSafely(other.w)
+                x.equalsIgnoreRoundingErrors(other.x) &&
+                y.equalsIgnoreRoundingErrors(other.y) &&
+                z.equalsIgnoreRoundingErrors(other.z) &&
+                w.equalsIgnoreRoundingErrors(other.w)
     }
-}
 
-enum class Type {
-    Point, Vector, Undefined
+    override fun hashCode(): Int {
+        var result = x.hashCodeIgnoreRoundingErrors()
+        result = 31 * result + y.hashCodeIgnoreRoundingErrors()
+        result = 31 * result + z.hashCodeIgnoreRoundingErrors()
+        result = 31 * result + w.hashCodeIgnoreRoundingErrors()
+        return result
+    }
 }
