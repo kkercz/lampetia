@@ -5,6 +5,7 @@ import data.tuple.Tuple.Companion.tuple
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
 import org.junit.jupiter.api.Test
+import kotlin.math.sqrt
 
 object TupleTest {
 
@@ -46,6 +47,37 @@ object TupleTest {
         val v = Vector(4.5, 9.0, 13.5)
         val divided = Vector(1.5, 3.0, 4.5)
         assertThat(v / 3.0, equalTo(divided))
+    }
+
+    @Test
+    fun magnitudeOfVectors() {
+        assertThat(Vector(1.0, 0.0, 0.0).magnitude(), equalTo(1.0))
+        assertThat(Vector(0.0, 1.0, 0.0).magnitude(), equalTo(1.0))
+        assertThat(Vector(0.0, 0.0, 1.0).magnitude(), equalTo(1.0))
+        assertThat(Vector(1.0, 2.0, 3.0).magnitude(), equalTo(sqrt(14.0)))
+        assertThat(Vector(-1.0, -2.0, -3.0).magnitude(), equalTo(sqrt(14.0)))
+    }
+
+    @Test
+    fun normalizingVectors() {
+        assertThat(Vector(4.0, 0.0, 0.0).normalized(), equalTo(Vector(1.0, 0.0, 0.0)))
+        assertThat(Vector(1.0, 2.0, 3.0).normalized(), equalTo(Vector(1 / sqrt(14.0), 2 / sqrt(14.0), 3 / (sqrt(14.0)))))
+        assertThat(Vector(1.0, 2.0, 3.0).normalized().magnitude(), equalTo(1.0))
+    }
+
+    @Test
+    fun dotProductOfVectors() {
+        val a = Vector(1.0, 2.0, 3.0)
+        val b = Vector(2.0, 3.0, 4.0)
+        assertThat(a o b, equalTo(20.0))
+    }
+
+    @Test
+    fun crossProductOfVectors() {
+        val a = Vector(1.0, 2.0, 3.0)
+        val b = Vector(2.0, 3.0, 4.0)
+        assertThat(a x b, equalTo(Vector(-1.0, 2.0, -1.0)))
+        assertThat(b x a, equalTo(Vector(1.0, -2.0, 1.0)))
     }
 
     @Test
