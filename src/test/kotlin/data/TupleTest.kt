@@ -10,6 +10,23 @@ import kotlin.math.sqrt
 object TupleTest {
 
     @Test
+    fun equalityIgnoresRoundingErrors() {
+        val t1 = tuple(0.5, 1.0, 1.5, 2.0)
+        val t2 = tuple(0.5000000000004, 1.000000000003, 1.5000000000002, 2.000000000005)
+        assertThat(t1, equalTo(t2))
+        assertThat(t1.hashCode(), equalTo(t2.hashCode()))
+        assertThat(Point(t1.x, t1.y, t1.z), equalTo(Point(t2.x, t2.y, t2.z)))
+        assertThat(Vector(t1.x, t1.y, t1.z), equalTo(Vector(t2.x, t2.y, t2.z)))
+    }
+
+    @Test
+    fun properTypeIsAssignedToTuples() {
+        assertThat(tuple(0.5, 1.0, 1.5, 1.0), isA(Point::class.java))
+        assertThat(tuple(0.5, 1.0, 1.5, 0.0), isA(Vector::class.java))
+        assertThat(tuple(0.5, 1.0, 1.5, 3.0), not(allOf(isA(Point::class.java), isA(Vector::class.java))))
+    }
+
+    @Test
     fun addingPointToVector() {
         val p1 = Point(0.5, 1.0, 1.5)
         val v1 = Vector(0.5, 1.0, 1.5)
@@ -81,20 +98,17 @@ object TupleTest {
     }
 
     @Test
-    fun equalityIgnoresRoundingErrors() {
-        val t1 = tuple(0.5, 1.0, 1.5, 2.0)
-        val t2 = tuple(0.5000000000004, 1.000000000003, 1.5000000000002, 2.000000000005)
-        assertThat(t1, equalTo(t2))
-        assertThat(t1.hashCode(), equalTo(t2.hashCode()))
-        assertThat(Point(t1.x, t1.y, t1.z), equalTo(Point(t2.x, t2.y, t2.z)))
-        assertThat(Vector(t1.x, t1.y, t1.z), equalTo(Vector(t2.x, t2.y, t2.z)))
-    }
+    fun colors() {
+        val c1 = Color(0.9, 0.6, 0.75)
+        val c2 = Color(0.7, 0.1, 0.25)
+        assertThat(c1 + c2, equalTo(Color(1.6, 0.7, 1.0)))
+        assertThat(c1 - c2, equalTo(Color(0.2, 0.5, 0.5)))
+        assertThat(c1 * 2.0, equalTo(Color(1.8, 1.2, 1.5)))
+        assertThat(2.0 * c1, equalTo(Color(1.8, 1.2, 1.5)))
 
-    @Test
-    fun properTypeIsAssignedToTuples() {
-        assertThat(tuple(0.5, 1.0, 1.5, 1.0), isA(Point::class.java))
-        assertThat(tuple(0.5, 1.0, 1.5, 0.0), isA(Vector::class.java))
-        assertThat(tuple(0.5, 1.0, 1.5, 3.0), not(allOf(isA(Point::class.java), isA(Vector::class.java))))
+        assertThat(
+            Color(1.0, 0.2, 0.4) * Color(0.9, 1.0, 0.1),
+            equalTo(Color(0.9, 0.2, 0.04))
+        )
     }
-
 }

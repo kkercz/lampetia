@@ -32,3 +32,10 @@ operator fun Vector.unaryMinus(): Vector = -(this as Tuple) as Vector
 fun Vector.normalized(): Vector = (this as Tuple).normalized() as Vector
 infix fun Vector.o(v: Vector): Double = this as Tuple o v
 infix fun Vector.x(b: Vector): Vector = Vector(y * b.z - z * b.y, z * b.x - x * b.z, x * b.y - y * b.x)
+
+// Operations on Colors
+operator fun Color.plus(c: Color): Color = with(this as Tuple + c as Tuple) { Color(x, y, z) }
+operator fun Color.minus(c: Color): Color = with(this as Tuple - c as Tuple) { Color(x, y, z) }
+operator fun Color.times(c: Color): Color = Color(red * c.red, green * c.green, blue * c.blue)
+operator fun Color.times(scalar: Double): Color = with(this as Tuple * scalar) { Color(x, y, z) }
+operator fun Double.times(color: Color): Color = with(this * color as Tuple) { Color(x, y, z) }
