@@ -1,5 +1,6 @@
 package data
 
+import data.canvas.Canvas
 import data.tuple.Color
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.equalTo
@@ -7,8 +8,8 @@ import org.junit.jupiter.api.Test
 
 object CanvasTest {
 
-    val BLACK = Color(0.0, 0.0, 0.0)
-    val RED = Color(1.0, 0.0, 0.0)
+    private val BLACK = Color(0.0, 0.0, 0.0)
+    private val RED = Color(1.0, 0.0, 0.0)
 
     @Test
     fun creatingCanvas() {

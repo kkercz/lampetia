@@ -1,7 +1,7 @@
 package data.tuple
 
-import util.Math.equalsIgnoreRoundingErrors
-import util.Math.hashCodeIgnoreRoundingErrors
+import ext.equalsIgnoreRoundingErrors
+import ext.hashCodeIgnoreRoundingErrors
 
 open class Tuple protected constructor(open val x: Double, open val y: Double, open val z: Double, val w: Double) {
 
